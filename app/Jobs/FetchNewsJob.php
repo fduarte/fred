@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\NewsItem;
+use App\Actions\NewsItem\CreateUpdateNewsItemAction;
 use App\NewsAggregator\Enums\NewsProviderCategory;
 use App\NewsAggregator\Factories\NewsProviderFactory;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,18 +17,14 @@ class FetchNewsJob implements ShouldQueue
 
     public function __construct(public NewsProviderCategory $category) {}
 
-    public function handle(): void
+    public function handle(CreateUpdateNewsItemAction $createUpdateNewsItemAction): void
     {
         logger()->info("Fetching news items");
 
         $provider = NewsProviderFactory::make($this->category);
 
-        foreach ($provider->fetch() as $item) {
-            NewsItem::updateOrCreate(
-                ['url' => $item['url']],
-                $item
-            );
-        }
+        $createUpdateNewsItemAction->handle($provider->fetch());
+
         logger()->info("Terminated fetching news items");
     }
 }
