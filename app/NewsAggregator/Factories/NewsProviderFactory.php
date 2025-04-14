@@ -14,6 +14,8 @@ class NewsProviderFactory
             NewsProviderCategory::LARAVEL => new LaravelNewsProvider(),
             NewsProviderCategory::METAL => throw new \Exception('To be implemented'),
             NewsProviderCategory::FITNESS => throw new \Exception('To be implemented'),
+            NewsProviderCategory::BLUESKY => throw new \Exception('To be implemented'),
+            NewsProviderCategory::HACKERNEWS => throw new \Exception('To be implemented'),
         };
     }
 }
