@@ -11,7 +11,7 @@ class NewsProviderFactory
     public static function make(NewsProviderCategory $category): NewsProviderInterface
     {
         return match ($category) {
-            NewsProviderCategory::LARAVEL => new LaravelNewsProvider(),
+            NewsProviderCategory::LARAVEL => new LaravelNewsProvider,
             NewsProviderCategory::METAL => throw new \Exception('To be implemented'),
             NewsProviderCategory::FITNESS => throw new \Exception('To be implemented'),
             NewsProviderCategory::BLUESKY => throw new \Exception('To be implemented'),

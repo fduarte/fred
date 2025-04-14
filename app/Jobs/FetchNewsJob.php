@@ -19,12 +19,12 @@ class FetchNewsJob implements ShouldQueue
 
     public function handle(CreateUpdateNewsItemAction $createUpdateNewsItemAction): void
     {
-        logger()->info("Fetching news items");
+        logger()->info('Fetching news items');
 
         $provider = NewsProviderFactory::make($this->category);
 
         $createUpdateNewsItemAction->handle($provider->fetch());
 
-        logger()->info("Terminated fetching news items");
+        logger()->info('Terminated fetching news items');
     }
 }

@@ -16,7 +16,6 @@ class FetchNewsCommand extends Command implements PromptsForMissingInput
      */
     protected $signature = 'app:fetch-news {category=laravel}';
 
-
     /**
      * The console command description.
      *
@@ -32,8 +31,9 @@ class FetchNewsCommand extends Command implements PromptsForMissingInput
         $category = $this->argument('category');
         $newsCategoryEnum = NewsProviderCategory::tryFrom($category);
 
-        if (!$newsCategoryEnum) {
+        if (! $newsCategoryEnum) {
             $this->error('Invalid category: {$category}');
+
             return;
         }
 

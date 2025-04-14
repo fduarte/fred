@@ -1,6 +1,7 @@
 <?php
 
 namespace App\NewsAggregator\Contracts;
+
 use App\NewsAggregator\DTOs\NewsItemDto;
 
 interface NewsProviderInterface

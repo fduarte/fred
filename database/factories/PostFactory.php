@@ -1,9 +1,4 @@
 <?php
-/**
- * @author: Freddy Duarte <fredduarte@gmail.com>
- * @date: 3/20/25
- * @project: fred
- */
 
 namespace Database\Factories;
 
@@ -19,6 +14,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $title = $this->faker->sentence(6);
+
         return [
             'title' => $title,
             'slug' => Str::slug($title),

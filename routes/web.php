@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\PostController;
 
 Route::controller(PostController::class)->group(function () {
-//    Route::get('/posts/{id}', 'show')->name('posts.show');
-//    Route::post('/posts', 'store');
+    //    Route::get('/posts/{id}', 'show')->name('posts.show');
+    //    Route::post('/posts', 'store');
 
-    Route::get('/posts', function() {
-       return Inertia::render('Posts/Index');
+    Route::get('/posts', function () {
+        return Inertia::render('Posts/Index');
     })->name('posts.index');
 });
 

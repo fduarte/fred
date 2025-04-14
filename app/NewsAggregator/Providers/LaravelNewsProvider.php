@@ -13,7 +13,7 @@ class LaravelNewsProvider implements NewsProviderInterface
 
     public function fetch(): array
     {
-        $feed = new SimplePie();
+        $feed = new SimplePie;
         $feed->set_feed_url($this->feedUrl);
         $feed->enable_cache(false); // Enable and configure caching later
         $feed->init();

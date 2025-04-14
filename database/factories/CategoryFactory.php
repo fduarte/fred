@@ -26,5 +26,4 @@ class CategoryFactory extends Factory
             'updated_at' => now(),
         ];
     }
-
 }

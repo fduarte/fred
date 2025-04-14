@@ -16,7 +16,7 @@ class NewsItem extends Model
         'author',
         'category',
         'tags',
-        'published'
+        'published',
     ];
 
     protected function casts(): array

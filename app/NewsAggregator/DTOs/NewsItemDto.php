@@ -23,7 +23,7 @@ class NewsItemDto extends Data
         #[MapInputName('pubDate')]
         #[WithCast(DateTimeInterfaceCast::class, format: 'j F Y, g:i a')]
         public Carbon $published_at,
-        public ?string $author = null,
+        public ?string $author,
         #[WithCast(EnumCast::class, type: NewsProviderCategory::class)]
         public NewsProviderCategory $category,
         public array $tags = [],
@@ -43,5 +43,4 @@ class NewsItemDto extends Data
         }
 
     }
-
 }

@@ -5,9 +5,10 @@ namespace App\Actions\NewsItem;
 use App\Models\NewsItem;
 use Illuminate\Support\Facades\DB;
 
-final class CreateUpdateNewsItemAction {
-
-    public function handle(array $newsItemDtos): void {
+final class CreateUpdateNewsItemAction
+{
+    public function handle(array $newsItemDtos): void
+    {
 
         // Save data
         DB::transaction(function () use ($newsItemDtos) {
@@ -18,7 +19,6 @@ final class CreateUpdateNewsItemAction {
                 );
             }
         });
-
 
         // Broadcast new import
         // broadcast(new NewsItemCreatedUpdated($newsItemDto))->toOthers();
