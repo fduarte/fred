@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Models\NewsItem;
+use App\NewsAggregator\Enums\NewsProviderCategory;
+use App\NewsAggregator\Factories\NewsProviderFactory;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class FetchNewsJob implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public function __construct(public NewsProviderCategory $category) {}
+
+    public function handle(): void
+    {
+        logger()->info("Fetching news items");
+
+        $provider = NewsProviderFactory::make($this->category);
+
+        foreach ($provider->fetch() as $item) {
+            NewsItem::updateOrCreate(
+                ['url' => $item['url']],
+                $item
+            );
+        }
+        logger()->info("Terminated fetching news items");
+    }
+}
