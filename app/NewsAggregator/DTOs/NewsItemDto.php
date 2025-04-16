@@ -1,17 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\NewsAggregator\DTOs;
 
 use App\NewsAggregator\Enums\NewsProviderCategory;
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\WithCast;
+use Spatie\LaravelData\Attributes\WithTransformer;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Casts\EnumCast;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 use Str;
 
-class NewsItemDto extends Data
+final class NewsItemDto extends Data
 {
     public function __construct(
         public string $title,
@@ -21,21 +25,30 @@ class NewsItemDto extends Data
         #[MapInputName('link')]
         public string $url,
         #[MapInputName('pubDate')]
-        #[WithCast(DateTimeInterfaceCast::class, format: 'j F Y, g:i a')]
-        public Carbon $published_at,
+//        #[WithCast(DateTimeInterfaceCast::class, format: 'j F Y, g:i a')]
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public \DateTime $published_at,
         public ?string $author,
         #[WithCast(EnumCast::class, type: NewsProviderCategory::class)]
         public NewsProviderCategory $category,
         public array $tags = [],
         public int $published = 0,
     ) {
-        $cleaned = trim(strip_tags($this->summary ?? ''));
 
-        // Normalize whitespace
+        // If the source is Bluesky, it won't have a title, so grab a big portion of the text
+        if ($this->source === 'Bluesky') {
+            $this->summary = Str::limit($this->summary, 250, '...');
+            return;
+        }
+
+
+        // Clean HTML and normalize whitespace
+        $cleaned = trim(strip_tags($this->summary ?? ''));
         $cleaned = preg_replace('/\s+/', ' ', $cleaned);
 
         // Extract first sentence (up to first period)
-        if (preg_match('/(.*?[.?!])\s/', $cleaned, $matches)) {
+        if (preg_match('/(.*?[.?!])\s/', (string) $cleaned, $matches)) {
             $this->summary = trim($matches[1]);
         } else {
             // Fallback: limit to 255 chars and clean

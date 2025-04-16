@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\NewsAggregator\Enums\NewsProviderCategory;
 use Illuminate\Database\Eloquent\Model;
 
-class NewsItem extends Model
+final class NewsItem extends Model
 {
     protected $fillable = [
         'title',
