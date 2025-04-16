@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Jobs\FetchNewsJob;
@@ -7,7 +9,7 @@ use App\NewsAggregator\Enums\NewsProviderCategory;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 
-class FetchNewsCommand extends Command implements PromptsForMissingInput
+final class FetchNewsCommand extends Command implements PromptsForMissingInput
 {
     /**
      * The name and signature of the console command.

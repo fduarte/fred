@@ -8,12 +8,11 @@ use App\NewsAggregator\Contracts\NewsProviderInterface;
 use App\NewsAggregator\DTOs\NewsItemDto;
 use App\NewsAggregator\Enums\NewsProviderCategory;
 use Http;
-use SimplePie;
-use Str;
 
 final class BlueskyProvider implements NewsProviderInterface
 {
     private string $baseUrl = 'https://public.api.bsky.app/xrpc';
+
     private string $feedUrl = 'https://bsky.app/profile/freddyduarte.bsky.social/lists/3lmcebilpqm2y';
 
     private string $listDid = 'at://did:plc:4o445dyfao2uuwsc4lx6vzox/app.bsky.graph.list/3lmcebilpqm2y';
@@ -28,7 +27,7 @@ final class BlueskyProvider implements NewsProviderInterface
         $items = $response->json('feed') ?? [];
 
         return collect($items)
-            ->filter(fn ($item) => !isset($item['reply'])) // exclude replies
+            ->filter(fn ($item) => ! isset($item['reply'])) // exclude replies
             ->map(function ($item): NewsItemDto {
                 $post = $item['post'];
                 $record = $post['record'];
@@ -38,7 +37,7 @@ final class BlueskyProvider implements NewsProviderInterface
                     'title' => '',
                     'summary' => $record['text'],
                     'source' => 'Bluesky',
-                    'link' => 'https://bsky.app/profile/' . $author['handle'] . '/post/' . basename($post['uri']),
+                    'link' => 'https://bsky.app/profile/'.$author['handle'].'/post/'.basename($post['uri']),
                     'pubDate' => $record['createdAt'],
                     'author' => $author['displayName'] ?? $author['handle'],
                     'category' => NewsProviderCategory::from('bluesky')->value,
@@ -48,5 +47,4 @@ final class BlueskyProvider implements NewsProviderInterface
             })
             ->toArray();
     }
-
 }

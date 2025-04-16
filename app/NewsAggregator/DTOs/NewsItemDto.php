@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\NewsAggregator\DTOs;
 
 use App\NewsAggregator\Enums\NewsProviderCategory;
-use Carbon\Carbon;
+use DateTimeImmutable;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Attributes\WithTransformer;
@@ -25,10 +25,10 @@ final class NewsItemDto extends Data
         #[MapInputName('link')]
         public string $url,
         #[MapInputName('pubDate')]
-//        #[WithCast(DateTimeInterfaceCast::class, format: 'j F Y, g:i a')]
+        //        #[WithCast(DateTimeInterfaceCast::class, format: 'j F Y, g:i a')]
         #[WithCast(DateTimeInterfaceCast::class)]
         #[WithTransformer(DateTimeInterfaceTransformer::class)]
-        public \DateTime $published_at,
+        public DateTimeImmutable $published_at,
         public ?string $author,
         #[WithCast(EnumCast::class, type: NewsProviderCategory::class)]
         public NewsProviderCategory $category,
@@ -39,17 +39,17 @@ final class NewsItemDto extends Data
         // If the source is Bluesky, it won't have a title, so grab a big portion of the text
         if ($this->source === 'Bluesky') {
             $this->summary = Str::limit($this->summary, 250, '...');
+
             return;
         }
 
-
         // Clean HTML and normalize whitespace
-        $cleaned = trim(strip_tags($this->summary ?? ''));
+        $cleaned = mb_trim(strip_tags($this->summary ?? ''));
         $cleaned = preg_replace('/\s+/', ' ', $cleaned);
 
         // Extract first sentence (up to first period)
         if (preg_match('/(.*?[.?!])\s/', (string) $cleaned, $matches)) {
-            $this->summary = trim($matches[1]);
+            $this->summary = mb_trim($matches[1]);
         } else {
             // Fallback: limit to 255 chars and clean
             $this->summary = Str::limit($cleaned, 255, '...');

@@ -22,7 +22,7 @@ final class LaravelNewsProvider implements NewsProviderInterface
         $feed->handle_content_type();
 
         return collect($feed->get_items())
-            ->map(fn($item): NewsItemDto => NewsItemDto::from(
+            ->map(fn ($item): NewsItemDto => NewsItemDto::from(
                 [
                     'title' => $item->get_title(),
                     'description' => $item->get_description(),
