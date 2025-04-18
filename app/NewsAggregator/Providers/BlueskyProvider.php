@@ -13,8 +13,6 @@ final class BlueskyProvider implements NewsProviderInterface
 {
     private string $baseUrl = 'https://public.api.bsky.app/xrpc';
 
-    private string $feedUrl = 'https://bsky.app/profile/freddyduarte.bsky.social/lists/3lmcebilpqm2y';
-
     private string $listDid = 'at://did:plc:4o445dyfao2uuwsc4lx6vzox/app.bsky.graph.list/3lmcebilpqm2y';
 
     public function fetch(): array
@@ -27,8 +25,8 @@ final class BlueskyProvider implements NewsProviderInterface
         $items = $response->json('feed') ?? [];
 
         return collect($items)
-            ->filter(fn ($item) => ! isset($item['reply'])) // exclude replies
-            ->map(function ($item): NewsItemDto {
+            ->filter(fn ($item): bool => ! isset($item['reply'])) // exclude replies
+            ->map(function (array $item): NewsItemDto {
                 $post = $item['post'];
                 $record = $post['record'];
                 $author = $post['author'];
@@ -37,7 +35,7 @@ final class BlueskyProvider implements NewsProviderInterface
                     'title' => '',
                     'summary' => $record['text'],
                     'source' => 'Bluesky',
-                    'link' => 'https://bsky.app/profile/'.$author['handle'].'/post/'.basename($post['uri']),
+                    'link' => 'https://bsky.app/profile/'.$author['handle'].'/post/'.basename((string) $post['uri']),
                     'pubDate' => $record['createdAt'],
                     'author' => $author['displayName'] ?? $author['handle'],
                     'category' => NewsProviderCategory::from('bluesky')->value,
