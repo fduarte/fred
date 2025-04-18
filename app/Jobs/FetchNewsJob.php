@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
-use App\Actions\NewsItem\CreateUpdateNewsItemAction;
+use App\Actions\News\CreateUpdateNewsItemAction;
 use App\NewsAggregator\Enums\NewsProviderCategory;
 use App\NewsAggregator\Factories\NewsProviderFactory;
 use Illuminate\Contracts\Queue\ShouldQueue;

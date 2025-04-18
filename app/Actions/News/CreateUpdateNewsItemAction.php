@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\NewsItem;
+namespace App\Actions\News;
 
 use App\Models\NewsItem;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +13,7 @@ final class CreateUpdateNewsItemAction
     {
 
         // Save data
-        DB::transaction(function () use ($newsItemDtos) {
+        DB::transaction(function () use ($newsItemDtos): void {
             foreach ($newsItemDtos as $newsItemDto) {
                 NewsItem::updateOrCreate(
                     ['url' => $newsItemDto['url']],
