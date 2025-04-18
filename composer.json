@@ -73,7 +73,7 @@
             "herd coverage ./vendor/bin/pest --parallel --coverage --type-coverage --arch",
             "./vendor/bin/pint",
             "./vendor/bin/peck",
-            "./vendor/bin/phpstan analyse",
+            "php -d memory_limit=512M ./vendor/bin/phpstan analyse",
             "./vendor/bin/rector"
         ]
     },
