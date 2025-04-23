@@ -12,6 +12,11 @@ use Exception;
 
 final class NewsProviderFactory
 {
+    /**
+     * @param NewsProviderCategory $category
+     * @return NewsProviderInterface
+     * @throws Exception
+     */
     public static function make(NewsProviderCategory $category): NewsProviderInterface
     {
         return match ($category) {
