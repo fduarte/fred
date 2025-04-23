@@ -9,11 +9,13 @@ return [
      * and will serialize dates using the first format from the array.
      */
     'date_format' => [
-        'Y-m-d\TH:i:s.v\Z', // with milliseconds
-        'Y-m-d\TH:i:s\Z',   // without milliseconds
+        'Y-m-d\TH:i:s.u\Z', // microseconds (6 digits)
+        'Y-m-d\TH:i:s.v\Z', // milliseconds (3 digits)
+        'Y-m-d\TH:i:s\Z',   // no fractional seconds
         'd F Y, h:i a',
-        DATE_ATOM,          // fallback
+        DATE_ATOM,
     ],
+
 
     /*
      * When transforming or casting dates, the following timezone will be used to
