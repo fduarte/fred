@@ -27,7 +27,7 @@ final class NewsItem extends Model
         return [
             'category' => NewsProviderCategory::class,
             'tags' => 'array',
-            'published_at' => 'datetime:Y-m-d',
+            'published_at' => 'datetime:Y-m-d H:i',
         ];
     }
 

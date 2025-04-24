@@ -15,10 +15,16 @@ final class NewsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ReadNewsAction $news): Response
+    public function index(ReadNewsAction $readNewsAction): Response
     {
+        $newsPaginator = $readNewsAction();
+
         return Inertia::render('News/Index', [
-            'news' => $news(),
+            'news' => $newsPaginator->toArray()['data'],
+            'links' => [
+                'next' => $newsPaginator->nextCursor()?->encode(),
+                'prev' => $newsPaginator->previousCursor()?->encode(),
+            ],
         ]);
     }
 
