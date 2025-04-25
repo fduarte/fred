@@ -47,4 +47,12 @@ final class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function favoriteNews()
+    {
+        return $this->belongsToMany(NewsItem::class, 'news_favorites')
+            ->withPivot('is_read', 'is_archived')
+            ->withTimestamps();
+    }
+
 }

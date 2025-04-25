@@ -19,9 +19,10 @@ use Str;
 final class NewsItemDto extends Data
 {
     public function __construct(
+        public ?int $id,
         public ?string $title,
         #[MapInputName('description')]
-        public ?string $summary,
+        public string $summary,
         public ?string $source,
         #[MapInputName('link')]
         public string $url,
@@ -47,8 +48,9 @@ final class NewsItemDto extends Data
 
         // Clean HTML and normalize whitespace
         $cleaned = mb_trim(strip_tags($this->summary ?? ''));
-        $cleaned = preg_replace('/\s+/', ' ', $cleaned);
+        $this->summary = preg_replace('/\s+/', ' ', $cleaned);
 
+        /*
         // Extract first sentence (up to first period)
         if (preg_match('/(.*?[.?!])\s/', (string) $cleaned, $matches)) {
             $this->summary = mb_trim($matches[1]);
@@ -56,5 +58,6 @@ final class NewsItemDto extends Data
             // Fallback: limit to 255 chars and clean
             $this->summary = Str::limit($cleaned, 255, '...');
         }
+        */
     }
 }

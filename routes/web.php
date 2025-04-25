@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\NewsFavoriteController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,6 +23,11 @@ Route::controller(PostController::class)->group(function () {
 
 // News
 Route::resource('news', NewsController::class);
+
+// News Favorites
+Route::post('/news/{newsItem}/favorite', [NewsFavoriteController::class, 'toggleFavorite'])
+    ->middleware('auth');
+
 
 // About
 Route::get('about', function () {

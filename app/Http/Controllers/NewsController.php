@@ -19,8 +19,13 @@ final class NewsController extends Controller
     {
         $newsPaginator = $readNewsAction();
 
+        $favorites = auth()->check()
+            ? auth()->user()->favoriteNews()->pluck('news_item_id')->toArray()
+            : [];
+
         return Inertia::render('News/Index', [
             'news' => $newsPaginator->toArray()['data'],
+            'favorites' => $favorites ?? [],
             'links' => [
                 'next' => $newsPaginator->nextCursor()?->encode(),
                 'prev' => $newsPaginator->previousCursor()?->encode(),
