@@ -13,6 +13,7 @@ return [
         'Y-m-d\TH:i:s.v\Z', // milliseconds (3 digits)
         'Y-m-d\TH:i:s\Z',   // no fractional seconds
         'd F Y, h:i a',
+        'Y-m-d H:i',
         DATE_ATOM,
     ],
 
