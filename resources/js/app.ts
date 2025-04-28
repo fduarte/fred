@@ -1,6 +1,6 @@
 import '../css/app.css';
 
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
@@ -21,6 +21,21 @@ declare module 'vite/client' {
 }
 
 const appName = import.meta.env.VITE_APP_NAME || 'Fred Duarte';
+
+
+/**
+ * Handler for invalid (i.e. unauthorized) access attempts
+ */
+router.on('invalid', (event) => {
+    window.location.reload();
+});
+router.on('error', (errors) => {
+    if (errors.response?.status === 401) {
+        alert('Your session expired. Redirecting to login...');
+        window.location.reload();
+    }
+});
+
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

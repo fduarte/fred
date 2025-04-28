@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\NewsFavoriteController;
+use App\Http\Controllers\NewsFavoritesController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // Home
 Route::get('/', function () {
-//    return Inertia::render('Welcome');
-    return Inertia::render('Posts/Index');
+    return Inertia::render('Welcome');
+//    return Inertia::render('Posts/Index');
 })->name('home');
 
 // Posts
@@ -25,9 +25,8 @@ Route::controller(PostController::class)->group(function () {
 Route::resource('news', NewsController::class);
 
 // News Favorites
-Route::post('/news/{newsItem}/favorite', [NewsFavoriteController::class, 'toggleFavorite'])
+Route::post('/news/{newsItem}/favorite', [NewsFavoritesController::class, 'toggleFavorite'])
     ->middleware('auth');
-
 
 // About
 Route::get('about', function () {
@@ -56,10 +55,19 @@ Route::fallback(function () {
     ], 404);
 });
 
-// Admin
+
+
+// Admin: Dashboard
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Admin: Favorites
+Route::prefix('favorites')->name('favorites.')->group(function () {
+    Route::get('/', [NewsFavoritesController::class, 'index'])->name('index');
+    Route::post('{newsItem}/toggle-read', [NewsFavoritesController::class, 'toggleRead'])->name('toggle-read');
+    Route::post('{newsItem}/archive', [NewsFavoritesController::class, 'archive'])->name('archive');
+})->middleware(['auth', 'verified']);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
