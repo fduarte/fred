@@ -3,6 +3,7 @@ import { Head, usePage, router } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue'
 import axios from 'axios';
 import { ref, watch } from 'vue';
+import type { Post } from '@/types';
 
 // Import shadcn/vue components
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -10,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Delete, Edit2Icon, CircleIcon, LightbulbIcon, Loader2Icon } from 'lucide-vue-next';
 
 const page = usePage()
-const posts = ref<any[]>(page.props.posts || []);
+const posts = ref<Post[]>(page.props.posts || []);
 const links = ref(page.props.links ?? {})
 const loading = ref(false)
 
@@ -29,7 +30,7 @@ watch(
 function editPost(post: array) {
     axios.post(`/admin-posts/${post.id}/edit`)
         .then(() => {
-            posts.value = posts.value.filter(item = item.id !== post.id)
+            // posts.value = posts.value.filter(item = item.id !== post.id)
 
 
         })
@@ -110,6 +111,7 @@ function goToCursor(cursor: string) {
                   <Table>
                       <TableHeader>
                           <TableRow>
+                              <TableHead></TableHead>
                               <TableHead>Title</TableHead>
                               <TableHead>Status</TableHead>
                               <TableHead>Featured</TableHead>

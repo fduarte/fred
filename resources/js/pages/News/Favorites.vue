@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, usePage, router } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { BreadcrumbItem } from '@/types';
+import type { Favorite, BreadcrumbItem } from '@/types';
 import axios from 'axios';
 import { ref, watch } from 'vue';
 import { Archive, BookOpen, Loader2Icon } from 'lucide-vue-next';
@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button';
 
 const page = usePage()
-const favorites = ref<any[]>(page.props.favorites || []);
+const favorites = ref<Favorite[]>(page.props.favorites || []);
 const links = ref(page.props.links ?? {})
 const loading = ref(false)
 

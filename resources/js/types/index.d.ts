@@ -35,4 +35,49 @@ export interface User {
     updated_at: string;
 }
 
+export interface Post {
+    id: number;
+    title: string;
+    body: string;
+    image: string;
+    published: boolean;
+    featured: boolean;
+    tags: array;
+    category_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface News {
+    id: number;
+    title?: string;
+    summary: string;
+    source: string;
+    url: string;
+    published_at: string;
+    author?: number;
+    category: number;
+    tags?: number[];
+    published: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Favorite {
+    id: number;
+    title?: string;
+    summary: string;
+    source: string;
+    url: string;
+    published_at: string;
+    author?: number;
+    category: number;
+    tags?: number[];
+    published: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+
+
 export type BreadcrumbItemType = BreadcrumbItem;

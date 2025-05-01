@@ -4,10 +4,12 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { ref } from 'vue';
 import { Heart } from 'lucide-vue-next';
+import type { News, Favorite } from '@/types';
 
 const page = usePage()
-const favorites = ref(page.props.favorites || [])
-const { news, links } = page.props
+const favorites = ref<Favorite[]>(page.props.favorites || [])
+const news = ref<News[]>(page.props.news || [])
+const links = ref(page.props.links ?? {})
 const loading = ref(false)
 
 /**
