@@ -22,7 +22,7 @@ function cursorUrl(cursor: string) {
  * Checks for existing favorited news for logged user
  * @param newsId
  */
-function isFavorited(newsId) {
+function isFavorited(newsId: int) {
     return favorites.value.includes(newsId)
 }
 
@@ -30,7 +30,7 @@ function isFavorited(newsId) {
  * Saves/deletes particular news item for logged user
  * @param newsId
  */
-function toggleFavorite(newsId) {
+function toggleFavorite(newsId: int) {
     loading.value = true
     axios.post(`/news/${newsId}/favorite`)
         .then(() => {
