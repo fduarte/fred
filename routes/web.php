@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NewsFavoritesController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -55,8 +56,6 @@ Route::fallback(function () {
     ], 404);
 });
 
-
-
 // Admin: Dashboard
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
@@ -68,6 +67,11 @@ Route::prefix('favorites')->name('favorites.')->group(function () {
     Route::post('{newsItem}/toggle-read', [NewsFavoritesController::class, 'toggleRead'])->name('toggle-read');
     Route::post('{newsItem}/archive', [NewsFavoritesController::class, 'archive'])->name('archive');
 })->middleware(['auth', 'verified']);
+
+// Admin: Posts
+Route::resource('admin-posts', AdminPostController::class);
+Route::get('admin-posts/{postId}/toggle-published', [AdminPostController::class, 'togglePublished'])->name('admin-posts.toggle-published');
+Route::get('admin-posts/{postId}/toggle-featured', [AdminPostController::class, 'toggleFeatured'])->name('admin-posts.toggle-featured');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
